@@ -1,4 +1,4 @@
-package com.rnplayground.cloud
+package com.kiki.react.amap.search.cloud
 
 import android.content.ContentValues.TAG
 import android.util.Log
@@ -8,7 +8,7 @@ import com.amap.api.services.cloud.CloudSearch
 import com.amap.api.services.cloud.CloudSearch.*
 import com.amap.api.services.core.LatLonPoint
 import com.facebook.react.bridge.*
-import com.rnplayground.utils.AMapParse
+import com.kiki.react.amap.search.utils.AMapParse
 
 class AMapCloudSearch(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext), OnCloudSearchListener {
 

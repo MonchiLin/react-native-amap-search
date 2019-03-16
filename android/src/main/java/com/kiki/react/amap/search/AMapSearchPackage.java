@@ -1,12 +1,12 @@
-
-package com.rnplayground;
+package com.kiki.react.amap.search;
 
 import com.facebook.react.ReactPackage;
+import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
-import com.rnplayground.cloud.AMapCloudSearch;
-import com.rnplayground.cloud.AMapPoiSearch;
+import com.kiki.react.amap.search.cloud.AMapCloudSearch;
+import com.kiki.react.amap.search.cloud.AMapPoiSearch;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,6 +20,10 @@ public class AMapSearchPackage implements ReactPackage {
                 new AMapCloudSearch(reactContext),
                 new AMapPoiSearch(reactContext)
         );
+    }
+
+    public List<Class<? extends JavaScriptModule>> createJSModules() {
+        return Collections.emptyList();
     }
 
     @Override

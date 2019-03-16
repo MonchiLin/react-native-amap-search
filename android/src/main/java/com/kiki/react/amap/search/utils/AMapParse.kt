@@ -1,4 +1,4 @@
-package com.rnplayground.utils
+package com.kiki.react.amap.search.utils
 
 import com.amap.api.services.cloud.CloudImage
 import com.amap.api.services.cloud.CloudItem

@@ -1,4 +1,4 @@
-package com.rnplayground.cloud
+package com.kiki.react.amap.search.cloud
 
 import android.util.Log
 import com.amap.api.services.core.PoiItem
@@ -7,7 +7,6 @@ import com.amap.api.services.poisearch.PoiSearch
 import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener
 import com.amap.api.services.poisearch.SubPoiItem
 import com.facebook.react.bridge.*
-
 
 class AMapPoiSearch(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext), OnPoiSearchListener {
     internal var reactContext: ReactContext? = null
