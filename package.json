@@ -1,7 +1,6 @@
-
 {
-  "name": "react-native-react-native-amap-search",
-  "version": "1.0.0",
+  "name": "react-native-amap-search",
+  "version": "0.0.8",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -13,8 +12,6 @@
   "author": "",
   "license": "",
   "peerDependencies": {
-    "react-native": "^0.41.2",
-    "react-native-windows": "0.41.0-rc.1"
-
+    "react-native": "^0.58.5"
   }
 }

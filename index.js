@@ -1,5 +1,7 @@
-import { NativeModules } from 'react-native';
+import {NativeModules} from "react-native";
 
-const { AMapSearch } = NativeModules;
+const {AMapPoiSearch, AMapCloudSearch} = NativeModules;
 
-export default AMapSearch;
+export default {
+    AMapPoiSearch, AMapCloudSearch
+};

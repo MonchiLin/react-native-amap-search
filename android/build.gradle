@@ -29,9 +29,10 @@ android {
 repositories {
     mavenCentral()
     google()
+    jcenter()
 }
 
 dependencies {
-    api 'com.facebook.react:react-native:+'
+    implementation 'com.facebook.react:react-native:+'
     implementation 'com.amap.api:search:latest.integration'
 }
