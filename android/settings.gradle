@@ -1,0 +1,5 @@
+rootProject.name = 'rn-amap-search'
+include ':react-native-amamp-search'
+project(':react-native-amamp-search').projectDir = new File(rootProject.projectDir, '../lib/android')
+
+include ':app'

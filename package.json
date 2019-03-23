@@ -1,17 +1,56 @@
 {
   "name": "react-native-amap-search",
-  "version": "0.1.8",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "version": "0.1.9",
+  "description": "react-native 高德地图搜索服务组件以及常用工具方法，仅支持 Android",
+  "author": "kiki <lin912305043@gmail.com>",
+  "license": "MIT",
   "keywords": [
-    "react-native"
+    "react-native",
+    "amap",
+    "maps"
   ],
-  "author": "",
-  "license": "",
-  "peerDependencies": {
-    "react-native": "^0.58.5"
+  "main": "lib/js",
+  "files": [
+    "lib/js",
+    "lib/android/src",
+    "lib/android/build.gradle",
+    "lib/ios"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muxi2015/react-native-amap-search"
+  },
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "run-android": "node node_modules/react-native/local-cli/cli.js run-android",
+    "release-android": "node node_modules/react-native/local-cli/cli.js run-android --variant=release",
+    "log-android": "node node_modules/react-native/local-cli/cli.js log-android",
+    "reload": "adb reverse tcp:8081 tcp:8081 && adb shell input text rr",
+    "run-ios": "node node_modules/react-native/local-cli/cli.js run-ios"
+  },
+  "devDependencies": {
+    "react": "16.8.3",
+    "react-native": "0.58.5",
+    "@babel/core": "^7.4.0",
+    "@babel/runtime": "^7.4.0",
+    "@types/react": "^16.8.8",
+    "@types/react-native": "^0.57.41",
+    "babel-jest": "^24.5.0",
+    "jest": "^24.5.0",
+    "metro-react-native-babel-preset": "^0.53.1",
+    "react-native-typescript-transformer": "^1.2.12",
+    "react-test-renderer": "16.8.3",
+    "typescript": "^3.3.4000"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "rnpm": {
+    "android": {
+      "sourceDir": "lib/android"
+    }
+  },
+  "prettier": {
+    "printWidth": 100
   }
 }

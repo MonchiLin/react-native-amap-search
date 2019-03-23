@@ -1,4 +1,4 @@
-import {NativeModules} from "react-native";
+import { AppRegistry } from "react-native";
+import App from "./example/app";
 
-export const AMapPoiSearch = NativeModules.AMapPoiSearch.AMapPoiSearch;
-export const AMapCloudSearch = NativeModules.AMapCloudSearch.AMapCloudSearch;
+AppRegistry.registerComponent("RNAMapSearch", () => App);
