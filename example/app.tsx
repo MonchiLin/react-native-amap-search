@@ -5,18 +5,17 @@ import {View, Text, NativeModules} from "react-native";
 export default class App extends React.Component {
 
     componentDidMount(): void {
-        // console.log(AMapCloudSearch);
-        // console.log(AMapPoiSearch);
+        const search = NativeModules.AMapCloudSearch.CloudSearch;
 
-        console.log("NativeModules", NativeModules);
-        const search = NativeModules.ACloudSearch.ACloudSearch;
         search({
             radius: 1000,
             tableId: "5c67d39f2376c16734b5e7a7",
-            latitude: 114.2523900000,
-            longitude: 22.7112300000
-        }).then(res => {
+            latitude: 22.7137471660,
+            longitude: 114.2523837090
+        }).then((res: any) => {
             console.log(res);
+        }).catch((err: any) => {
+            console.log("err", err);
         });
 
     }
