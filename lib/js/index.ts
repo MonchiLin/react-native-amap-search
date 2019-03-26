@@ -4,16 +4,14 @@ const {AMapPoiSearch, AMapCloudSearch} = NativeModules;
 
 // TODO 带补全结果类型
 
-interface IAMapCloudSearch {
-    CloudSearch: (params: {
-        radius: number
-        tableId: string
-        latitude: number
-        longitude: number
-    }) => Promise<any>
+type CloudSearch = (params: { radius: number; tableId: string; latitude: number; longitude: number }) => Promise<any>
+
+interface Module {
+    poiSearch: any
+    cloudSearch: CloudSearch
 }
 
 export default {
-    AMapPoiSearch: AMapPoiSearch,
-    AMapCloudSearch: AMapCloudSearch as IAMapCloudSearch
-};
+    poiSearch: AMapPoiSearch.AMapPoiSearch,
+    cloudSearch: AMapCloudSearch.AMapCloudSearch
+} as Module;

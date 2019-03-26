@@ -1,13 +1,13 @@
 import React, {Component} from "react";
 import {View, Text, NativeModules} from "react-native";
-// import {AMapPoiSearch, AMapCloudSearch} from "react-native-amap-search";
+import Search from "react-native-amap-search";
 
 export default class App extends React.Component {
 
     componentDidMount(): void {
-        const search = NativeModules.AMapCloudSearch.CloudSearch;
+        // const search = NativeModules.AMapCloudSearch.AMapCloudSearch;
 
-        search({
+        Search.cloudSearch({
             radius: 1000,
             tableId: "5c67d39f2376c16734b5e7a7",
             latitude: 22.7137471660,

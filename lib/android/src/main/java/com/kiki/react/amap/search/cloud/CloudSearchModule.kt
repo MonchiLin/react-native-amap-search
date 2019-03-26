@@ -2,13 +2,11 @@ package com.kiki.react.amap.search.cloud
 
 import android.util.Log
 import com.amap.api.services.core.LatLonPoint
-
 import com.facebook.react.bridge.*
 import com.kiki.react.amap.search.utils.AMapParse
-import com.amap.api.services.cloud.CloudSearch as AMapCloudSearch
-import com.amap.api.services.cloud.CloudResult as AMapCloudResult
 import com.amap.api.services.cloud.CloudItemDetail as AMapCloudItemDetail
-
+import com.amap.api.services.cloud.CloudResult as AMapCloudResult
+import com.amap.api.services.cloud.CloudSearch as AMapCloudSearch
 
 val TAG = "kiki"
 
@@ -26,7 +24,7 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
     }
 
     @ReactMethod
-    fun CloudSearch(params: ReadableMap, promise: Promise) {
+    fun AMapCloudSearch(params: ReadableMap, promise: Promise) {
         searchResultPromise = promise
 
         if (!params.hasKey("tableId") || "".equals(params.getString("tableId"))) {

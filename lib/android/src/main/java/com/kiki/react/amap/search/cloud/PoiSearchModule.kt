@@ -32,11 +32,11 @@ class PoiSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
     }
 
     override fun getName(): String {
-        return "APoiSearch"
+        return "AMapPoiSearch"
     }
 
     @ReactMethod
-    fun APoiSearch(params: ReadableMap, promise: Promise) {
+    fun AMapPoiSearch(params: ReadableMap, promise: Promise) {
         this.promise = promise
 
         val keyword = try {
