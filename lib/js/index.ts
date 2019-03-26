@@ -6,12 +6,5 @@ const {AMapPoiSearch, AMapCloudSearch} = NativeModules;
 
 type CloudSearch = (params: { radius: number; tableId: string; latitude: number; longitude: number }) => Promise<any>
 
-interface Module {
-    poiSearch: any
-    cloudSearch: CloudSearch
-}
-
-export default {
-    poiSearch: AMapPoiSearch.AMapPoiSearch,
-    cloudSearch: AMapCloudSearch.AMapCloudSearch
-} as Module;
+export const poiSearch: CloudSearch = AMapPoiSearch.AMapPoiSearch;
+export const cloudSearch: any = AMapCloudSearch.AMapCloudSearch;
