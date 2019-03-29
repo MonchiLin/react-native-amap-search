@@ -8,24 +8,8 @@ import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener
 import com.amap.api.services.poisearch.SubPoiItem
 import com.facebook.react.bridge.*
 
-class PoiSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext), OnPoiSearchListener {
+class PoiSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
     internal var reactContext: ReactContext? = null
-    internal var promise: Promise? = null
-
-    override fun onPoiItemSearched(p0: PoiItem?, code: Int) {
-        Log.d("kiki", "kiki ->> PoiItem")
-    }
-
-    override fun onPoiSearched(result: PoiResult?, p1: Int) {
-        Log.d("kiki", "kiki ->> res " + result)
-
-        if (result == null) {
-            this.promise?.resolve(null)
-        } else {
-            this.promise?.resolve(toWriteArray(result))
-        }
-
-    }
 
     init {
         this.reactContext = reactContext
@@ -37,7 +21,6 @@ class PoiSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
 
     @ReactMethod
     fun AMapPoiSearch(params: ReadableMap, promise: Promise) {
-        this.promise = promise
 
         val keyword = try {
             params.getString("keyword")
@@ -47,7 +30,25 @@ class PoiSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
 
         val query = PoiSearch.Query(keyword, "", "362636")
         val poiSearch = PoiSearch(reactContext, query)
-        poiSearch.setOnPoiSearchListener(this)
+
+        poiSearch.setOnPoiSearchListener(object : OnPoiSearchListener {
+            override fun onPoiItemSearched(p0: PoiItem?, code: Int) {
+                Log.d("kiki", "kiki ->> PoiItem")
+            }
+
+            override fun onPoiSearched(result: PoiResult?, p1: Int) {
+                Log.d("kiki", "kiki ->> res " + result)
+
+                if (result == null) {
+                    promise.resolve(null)
+                } else {
+                    promise.resolve(toWriteArray(result))
+                }
+
+            }
+
+        })
+
         poiSearch.searchPOIAsyn();
     }
 

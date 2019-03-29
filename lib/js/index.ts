@@ -8,3 +8,8 @@ type CloudSearch = (params: { radius: number; tableId: string; latitude: number;
 
 export const poiSearch: CloudSearch = AMapPoiSearch.AMapPoiSearch;
 export const cloudSearch: any = AMapCloudSearch.AMapCloudSearch;
+
+export default {
+    poiSearch: poiSearch,
+    cloudSearch: cloudSearch,
+};

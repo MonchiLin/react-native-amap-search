@@ -8,15 +8,16 @@ import com.amap.api.services.cloud.CloudItemDetail as AMapCloudItemDetail
 import com.amap.api.services.cloud.CloudResult as AMapCloudResult
 import com.amap.api.services.cloud.CloudSearch as AMapCloudSearch
 
+
 val TAG = "kiki"
 
-class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext), AMapCloudSearch.OnCloudSearchListener {
+class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
     internal var reactContext: ReactContext? = null
-    internal var searchResultPromise: Promise? = null
 
     init {
         this.reactContext = reactContext
+
     }
 
     override fun getName(): String {
@@ -25,7 +26,6 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
 
     @ReactMethod
     fun AMapCloudSearch(params: ReadableMap, promise: Promise) {
-        searchResultPromise = promise
 
         if (!params.hasKey("tableId") || "".equals(params.getString("tableId"))) {
             promise.reject("tableId", "请传入正确的 table id")
@@ -62,23 +62,25 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
         val latLonPoint = LatLonPoint(latitude, longitude)
 
         val mCloudSearch = AMapCloudSearch(reactContext)
-        mCloudSearch.setOnCloudSearchListener(this)
-
 
         val bound = AMapCloudSearch.SearchBound(latLonPoint, radius)
 
         val mQuery = AMapCloudSearch.Query(tableId, keyword, bound);
 
+        mCloudSearch.setOnCloudSearchListener(object : AMapCloudSearch.OnCloudSearchListener {
+            override fun onCloudItemDetailSearched(cloudItemDetail: AMapCloudItemDetail?, count: Int) {
+                Log.d(TAG, "test1 ==> $count")
+                Log.d(TAG, "cloudSear ->> " + cloudItemDetail)
+            }
+
+            override fun onCloudSearched(cloudResult: AMapCloudResult, count: Int) {
+                Log.d(TAG, "cloudSear ->> res" + cloudResult)
+                promise.resolve(toWriteArray(cloudResult))
+            }
+
+        })
+
         mCloudSearch.searchCloudAsyn(mQuery);// 异步搜索
-    }
-
-    override fun onCloudSearched(cloudResult: AMapCloudResult, i: Int) {
-        Log.d(TAG, "cloudSear ->> res" + cloudResult)
-        searchResultPromise?.resolve(toWriteArray(cloudResult))
-    }
-
-    override fun onCloudItemDetailSearched(cloudItemDetail: AMapCloudItemDetail, i: Int) {
-        Log.d(TAG, "cloudSear ->> " + cloudItemDetail)
     }
 
     private fun toWriteArray(cloudResult: AMapCloudResult): WritableMap? {
@@ -94,6 +96,5 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
 
         return map
     }
-
 
 }
