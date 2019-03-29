@@ -80,9 +80,9 @@ class AMapParse {
 
         fun parseSearchBound(bound: CloudSearch.SearchBound): WritableMap? {
             val map = Arguments.createMap()
-            map.putString("city", bound.city)
+            map.putString("city", bound.city ?: null)
 
-            map.putString("shape", bound.shape)
+            map.putString("shape", bound.shape ?: null)
 
             map.putMap("center", parseLatLonPoint(bound.center))
 
@@ -110,8 +110,14 @@ class AMapParse {
         }
 
 
-        fun parseLatLonPoint(latLonPoint: LatLonPoint): WritableMap? {
+        fun parseLatLonPoint(latLonPoint: LatLonPoint?): WritableMap? {
             val map = Arguments.createMap()
+
+            if (latLonPoint == null) {
+                map.putNull("latitude")
+                map.putNull("longitude")
+                return map
+            }
 
             map.putDouble("latitude", latLonPoint.latitude)
             map.putDouble("longitude", latLonPoint.longitude)

@@ -25,56 +25,95 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
     }
 
     @ReactMethod
-    fun AMapCloudSearch(params: ReadableMap, promise: Promise) {
+    fun AMapCloudSearch(option: ReadableMap, promise: Promise) {
 
-        if (!params.hasKey("tableId") || "".equals(params.getString("tableId"))) {
-            promise.reject("tableId", "请传入正确的 table id")
+        if (option.getString("tableId") == null || "".equals(option.getString("tableId"))) {
+            promise.reject("参数错误", "请传入正确的 tableId")
             return
         }
 
-        if (!params.hasKey("longitude")) {
-            promise.reject("longitude", "请传入正确的 longitude")
+        if (!option.hasKey("searchBoundParams")) {
+            promise.reject("参数错误", "请传入 searchBoundParams")
             return
         }
 
-        if (!params.hasKey("latitude")) {
-            promise.reject("latitude", "请传入正确的 latitude")
+        if (!option.hasKey("searchBoundType")) {
+            promise.reject("参数错误", "请传入 searchBoundType")
             return
         }
 
-        val radius = if (params.hasKey("radius")) {
-            params.getInt("radius")
-        } else {
-            4000
-        }
-
-        val keyword = if (params.hasKey("keyword")) {
-            params.getString("keyword")
+        val keyword = if (option.hasKey("keyword")) {
+            option.getString("keyword")
         } else {
             ""
         }
 
-        val tableId = params.getString("tableId")
-        val latitude = params.getDouble("latitude")
-        val longitude = params.getDouble("longitude")
+        val radius = if (option.hasKey("radius")) {
+            option.getInt("radius")
+        } else {
+            1000
+        }
+
+        val tableId = option.getString("tableId")
+        val searchBoundType = option.getString("searchBoundType")
+
+        val bound: AMapCloudSearch.SearchBound = if ("Bound".equals(searchBoundType)) {
+
+            val bound = option.getMap("searchBoundParams")
+
+            val latitude = bound.getDouble("latitude")
+            val longitude = bound.getDouble("longitude")
+
+            val latLonPoint = LatLonPoint(latitude, longitude)
+
+            AMapCloudSearch.SearchBound(latLonPoint, radius)
+
+        } else if ("Rectangle".equals(searchBoundType)) {
+
+            val bound = option.getArray("searchBoundParams")
+
+            val point1 = bound.getMap(1)
+            val point2 = bound.getMap(1)
+
+            val latlon1 = LatLonPoint(point1.getDouble("latitude"), point1.getDouble("longitude"))
+            val latlon2 = LatLonPoint(point2.getDouble("latitude"), point2.getDouble("longitude"))
+
+            AMapCloudSearch.SearchBound(latlon1, latlon2)
+
+        } else if ("Polygon".equals(searchBoundType)) {
+            val bound = option.getArray("searchBoundParams")
 
 
-        val latLonPoint = LatLonPoint(latitude, longitude)
+            val latlons = (0..bound.size() - 1).map { it ->
+                val point = bound.getMap(it)
+                val latitude = point.getDouble("latitude")
+                val longitude = point.getDouble("longitude")
+
+                LatLonPoint(latitude, longitude)
+            }
+
+            AMapCloudSearch.SearchBound(latlons)
+        } else if ("Local".equals(searchBoundType)) {
+
+            val bound = option.getMap("searchBoundParams")
+            AMapCloudSearch.SearchBound(bound.getString("city"))
+        } else {
+            promise.reject("参数错误", "请传入正确的 searchBoundType, " +
+                    "searchBoundType 只能为: Bound Polygon Rectangle Local 之一")
+            return
+        }
 
         val mCloudSearch = AMapCloudSearch(reactContext)
-
-        val bound = AMapCloudSearch.SearchBound(latLonPoint, radius)
 
         val mQuery = AMapCloudSearch.Query(tableId, keyword, bound);
 
         mCloudSearch.setOnCloudSearchListener(object : AMapCloudSearch.OnCloudSearchListener {
             override fun onCloudItemDetailSearched(cloudItemDetail: AMapCloudItemDetail?, count: Int) {
-                Log.d(TAG, "test1 ==> $count")
-                Log.d(TAG, "cloudSear ->> " + cloudItemDetail)
+                Log.d(TAG, "onCloudItemDetailSearched ->> " + cloudItemDetail)
             }
 
             override fun onCloudSearched(cloudResult: AMapCloudResult, count: Int) {
-                Log.d(TAG, "cloudSear ->> res" + cloudResult)
+                Log.d(TAG, "onCloudSearched ->> " + cloudResult)
                 promise.resolve(toWriteArray(cloudResult))
             }
 
