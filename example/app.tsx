@@ -33,7 +33,7 @@ export default class App extends React.Component {
                 longitude: 114.247137
             },
             searchBoundType: "Periphery",
-            keyword: "龙城"
+            keyword: "金地龙城广场"
         }).then((res: any) => {
             console.log("poiSearch ->", res);
         }).catch((err: any) => {

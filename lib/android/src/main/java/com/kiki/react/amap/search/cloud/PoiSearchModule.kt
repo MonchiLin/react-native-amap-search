@@ -1,6 +1,7 @@
 package com.kiki.react.amap.search.cloud
 
 import android.util.Log
+import com.amap.api.services.core.LatLonPoint
 import com.amap.api.services.core.PoiItem
 import com.amap.api.services.poisearch.PoiResult
 import com.amap.api.services.poisearch.PoiSearch
@@ -22,14 +23,83 @@ class PoiSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
     @ReactMethod
     fun AMapPoiSearch(params: ReadableMap, promise: Promise) {
 
-        val keyword = try {
+        val keyword = if (params.hasKey("keyword")) {
             params.getString("keyword")
-        } catch (e: NoSuchKeyException) {
+        } else {
             ""
         }
 
-        val query = PoiSearch.Query(keyword, "", "362636")
+        val ctgr = if (params.hasKey("ctgr")) {
+            params.getString("ctgr")
+        } else {
+            ""
+        }
+
+        val cityCode = if (params.hasKey("cityCode")) {
+            params.getString("cityCode")
+        } else {
+            ""
+        }
+
+        val radius = if (params.hasKey("radius")) {
+            params.getInt("radius")
+        } else {
+            4000
+        }
+
+        val pageSize = if (params.hasKey("pageSize")) {
+            params.getInt("pageSize")
+        } else {
+            20
+        }
+
+        val pageNum = if (params.hasKey("pageNum")) {
+            params.getInt("pageNum")
+        } else {
+            1
+        }
+
+        val searchBoundType = if (params.hasKey("searchBoundType")) {
+            params.getString("searchBoundType")
+        } else {
+            promise.reject("参数错误", "请传入 searchBoundType")
+            return
+        }
+
+        val searchBound: PoiSearch.SearchBound = when (searchBoundType) {
+            "Periphery" -> {
+                val bound = params.getMap("searchBoundParams")
+                val latitude = bound.getDouble("latitude")
+                val longitude = bound.getDouble("longitude")
+                val latLonPoint = LatLonPoint(latitude, longitude)
+                PoiSearch.SearchBound(latLonPoint, radius)
+            }
+            "Polygon" -> {
+                val bound = params.getArray("searchBoundParams")
+
+
+                val latlons = (0..bound.size() - 1).map { it ->
+                    val point = bound.getMap(it)
+                    val latitude = point.getDouble("latitude")
+                    val longitude = point.getDouble("longitude")
+
+                    LatLonPoint(latitude, longitude)
+                }
+
+                PoiSearch.SearchBound(latlons)
+            }
+            else -> {
+                promise.reject("参数错误", "请传入 searchBoundType")
+                return
+            }
+        }
+
+        val query = PoiSearch.Query(keyword, ctgr, cityCode)
+        query.pageNum = pageNum
+        query.pageSize = pageSize
+
         val poiSearch = PoiSearch(reactContext, query)
+        poiSearch.bound = searchBound
 
         poiSearch.setOnPoiSearchListener(object : OnPoiSearchListener {
             override fun onPoiItemSearched(p0: PoiItem?, code: Int) {
