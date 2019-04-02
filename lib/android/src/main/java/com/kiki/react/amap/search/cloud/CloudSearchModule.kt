@@ -73,7 +73,7 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
             val bound = option.getArray("searchBoundParams")
 
             val point1 = bound.getMap(1)
-            val point2 = bound.getMap(1)
+            val point2 = bound.getMap(2)
 
             val latlon1 = LatLonPoint(point1.getDouble("latitude"), point1.getDouble("longitude"))
             val latlon2 = LatLonPoint(point2.getDouble("latitude"), point2.getDouble("longitude"))
@@ -95,8 +95,8 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
             AMapCloudSearch.SearchBound(latlons)
         } else if ("Local".equals(searchBoundType)) {
 
-            val bound = option.getMap("searchBoundParams")
-            AMapCloudSearch.SearchBound(bound.getString("city"))
+            val city = option.getString("searchBoundParams")
+            AMapCloudSearch.SearchBound(city)
         } else {
             promise.reject("参数错误", "请传入正确的 searchBoundType, " +
                     "searchBoundType 只能为: Bound Polygon Rectangle Local 之一")
