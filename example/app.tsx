@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {View, Text, NativeModules} from "react-native";
-import {cloudSearch, poiSearch, CloudSearch, CloudSearchParams} from "../lib/js";
+import {cloudSearch, poiSearch, CloudSearch, CloudSearchParams, poiSearchId} from "../lib/js";
 
 export default class App extends React.Component {
 
@@ -39,6 +39,12 @@ export default class App extends React.Component {
         }).catch((err: any) => {
             console.log("err", err);
         });
+
+        poiSearchId("B0FFKG8RAM")
+            .then((res) => {
+                console.log("poiSearchId ->", res);
+            }).catch(console.log);
+
     }
 
     render(): React.ReactNode {

@@ -18,3 +18,7 @@ export type PoiSearch = (params: PoiSearchParams) => Promise<any>
 
 export const poiSearch: PoiSearch = AMapPoiSearch.AMapPoiSearch;
 
+
+export type PoiSearchId = (id: string) => Promise<any>
+
+export const poiSearchId: PoiSearchId = AMapPoiSearch.AMapPoiSearchId;

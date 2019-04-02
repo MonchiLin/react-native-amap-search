@@ -21,6 +21,24 @@ class PoiSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
     }
 
     @ReactMethod
+    fun AMapPoiSearchId(id: String, promise: Promise) {
+        val poiSearch = PoiSearch(this.reactContext, null)
+
+        poiSearch.setOnPoiSearchListener(object : OnPoiSearchListener {
+            override fun onPoiItemSearched(res: PoiItem?, p1: Int) {
+                Log.d(TAG, "AMapPoiSearchId onPoiItemSearched => $res")
+            }
+
+            override fun onPoiSearched(res: PoiResult?, p1: Int) {
+                Log.d(TAG, "AMapPoiSearchId onPoiSearched => $res")
+            }
+
+        })
+
+        poiSearch.searchPOIId(id)
+    }
+
+    @ReactMethod
     fun AMapPoiSearch(params: ReadableMap, promise: Promise) {
 
         val keyword = if (params.hasKey("keyword")) {
