@@ -53,7 +53,6 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
         } else {
             1000
         }
-
         val tableId = option.getString("tableId")
         val searchBoundType = option.getString("searchBoundType")
 
@@ -84,7 +83,7 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
             val bound = option.getArray("searchBoundParams")
 
 
-            val latlons = (0..bound.size() - 1).map { it ->
+            val latlons = (0..bound.size() - 1).map {
                 val point = bound.getMap(it)
                 val latitude = point.getDouble("latitude")
                 val longitude = point.getDouble("longitude")
@@ -116,7 +115,6 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
                 Log.d(TAG, "onCloudSearched ->> " + cloudResult)
                 promise.resolve(toWriteArray(cloudResult))
             }
-
         })
 
         mCloudSearch.searchCloudAsyn(mQuery);// 异步搜索

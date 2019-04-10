@@ -8,17 +8,17 @@ export default class App extends React.Component {
         const params: CloudSearchParams = {
             searchBoundParams: [
                 {
-                    latitude: 22.719681,
-                    longitude: 114.247137
+                    latitude: 24.777343,
+                    longitude: 103.147589
                 },
                 {
-                    latitude: 22.717068,
-                    longitude: 114.250828
+                    latitude: 24.377343,
+                    longitude: 103.247589
                 },
             ],
             searchBoundType: "Polygon",
             radius: 1000,
-            tableId: "5c67d39f2376c16734b5e7a7",
+            tableId: "please input your are key",
         };
 
         cloudSearch(params).then((res: any) => {
@@ -29,11 +29,11 @@ export default class App extends React.Component {
 
         poiSearch({
             searchBoundParams: {
-                latitude: 22.719681,
-                longitude: 114.247137
+                latitude: 24.777343,
+                longitude: 103.047589
             },
             searchBoundType: "Periphery",
-            keyword: "金地龙城广场"
+            keyword: "广场"
         }).then((res: any) => {
             console.log("poiSearch ->", res);
         }).catch((err: any) => {
