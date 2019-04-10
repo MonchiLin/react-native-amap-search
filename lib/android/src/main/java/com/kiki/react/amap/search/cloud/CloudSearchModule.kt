@@ -17,7 +17,6 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
 
     init {
         this.reactContext = reactContext
-
     }
 
     override fun getName(): String {
@@ -25,40 +24,40 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
     }
 
     @ReactMethod
-    fun AMapCloudSearch(option: ReadableMap, promise: Promise) {
+    fun AMapCloudSearch(options: ReadableMap, promise: Promise) {
 
-        if (option.getString("tableId") == null || "".equals(option.getString("tableId"))) {
+        if (options.getString("tableId") == null || "".equals(options.getString("tableId"))) {
             promise.reject("参数错误", "请传入正确的 tableId")
             return
         }
 
-        if (!option.hasKey("searchBoundParams")) {
+        if (!options.hasKey("searchBoundParams")) {
             promise.reject("参数错误", "请传入 searchBoundParams")
             return
         }
 
-        if (!option.hasKey("searchBoundType")) {
+        if (!options.hasKey("searchBoundType")) {
             promise.reject("参数错误", "请传入 searchBoundType")
             return
         }
 
-        val keyword = if (option.hasKey("keyword")) {
-            option.getString("keyword")
+        val keyword = if (options.hasKey("keyword")) {
+            options.getString("keyword")
         } else {
             ""
         }
 
-        val radius = if (option.hasKey("radius")) {
-            option.getInt("radius")
+        val radius = if (options.hasKey("radius")) {
+            options.getInt("radius")
         } else {
             1000
         }
-        val tableId = option.getString("tableId")
-        val searchBoundType = option.getString("searchBoundType")
+        val tableId = options.getString("tableId")
+        val searchBoundType = options.getString("searchBoundType")
 
         val bound: AMapCloudSearch.SearchBound = if ("Bound".equals(searchBoundType)) {
 
-            val bound = option.getMap("searchBoundParams")
+            val bound = options.getMap("searchBoundParams")
 
             val latitude = bound.getDouble("latitude")
             val longitude = bound.getDouble("longitude")
@@ -69,7 +68,7 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
 
         } else if ("Rectangle".equals(searchBoundType)) {
 
-            val bound = option.getArray("searchBoundParams")
+            val bound = options.getArray("searchBoundParams")
 
             val point1 = bound.getMap(1)
             val point2 = bound.getMap(2)
@@ -80,7 +79,7 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
             AMapCloudSearch.SearchBound(latlon1, latlon2)
 
         } else if ("Polygon".equals(searchBoundType)) {
-            val bound = option.getArray("searchBoundParams")
+            val bound = options.getArray("searchBoundParams")
 
 
             val latlons = (0..bound.size() - 1).map {
@@ -94,7 +93,7 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
             AMapCloudSearch.SearchBound(latlons)
         } else if ("Local".equals(searchBoundType)) {
 
-            val city = option.getString("searchBoundParams")
+            val city = options.getString("searchBoundParams")
             AMapCloudSearch.SearchBound(city)
         } else {
             promise.reject("参数错误", "请传入正确的 searchBoundType, " +
@@ -125,11 +124,11 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
 
         map.putMap("query", AMapParse.parseQuery(cloudResult.query))
 
-        map.putMap("bound", AMapParse.parseSearchBound(cloudResult.bound))
+        map.putMap("bound", AMapParse.parserSearchBound(cloudResult.bound))
 
         map.putInt("pageCount", cloudResult.pageCount)
         map.putInt("totalCount", cloudResult.totalCount)
-        map.putArray("clouds", AMapParse.parseCloudItem(cloudResult.clouds))
+        map.putArray("clouds", AMapParse.parserCloudItem(cloudResult.clouds))
 
         return map
     }

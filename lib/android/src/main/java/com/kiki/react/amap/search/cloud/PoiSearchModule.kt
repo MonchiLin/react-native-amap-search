@@ -8,6 +8,7 @@ import com.amap.api.services.poisearch.PoiSearch
 import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener
 import com.amap.api.services.poisearch.SubPoiItem
 import com.facebook.react.bridge.*
+import com.kiki.react.amap.search.utils.AMapParse
 
 class PoiSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
     internal var reactContext: ReactContext? = null
@@ -30,7 +31,7 @@ class PoiSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
                 if (result == null) {
                     promise.resolve(null)
                 } else {
-                    promise.resolve(poiItemToWritableMap(result))
+                    promise.resolve(AMapParse.parserPoiItem(result))
                 }
             }
 
@@ -135,7 +136,7 @@ class PoiSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
                 if (result == null) {
                     promise.resolve(null)
                 } else {
-                    promise.resolve(toWriteArray(result))
+                    promise.resolve(AMapParse.parserPoiSearch(result))
                 }
 
             }
@@ -145,92 +146,4 @@ class PoiSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
         poiSearch.searchPOIAsyn();
     }
 
-    private fun toWriteArray(result: PoiResult): WritableArray? {
-        val pois = result.pois
-        val arr = Arguments.createArray()
-
-        pois.forEach { poi ->
-            arr.pushMap(poiItemToWritableMap(poi))
-        }
-
-        return arr
-    }
-
-    private fun subPoiSearchResultToWritableArray(subPoiItems: MutableList<SubPoiItem>): WritableArray? {
-        val arr = Arguments.createArray()
-
-        subPoiItems.forEach { it ->
-            val map = Arguments.createMap()
-            map.putInt("distance", it.distance)
-            map.putString("poiId", it.poiId)
-            map.putString("snippet", it.snippet)
-            map.putString("subName", it.subName)
-            map.putString("subTypeDes", it.subTypeDes)
-            map.putString("title", it.title)
-
-            val latLonPoint = Arguments.createMap()
-            latLonPoint.putDouble("latitude", it.latLonPoint.latitude)
-            latLonPoint.putDouble("longitude", it.latLonPoint.longitude)
-            map.putMap("latLonPoint", latLonPoint)
-
-            arr.pushMap(map)
-        }
-
-        return arr
-    }
-
-    private fun poiItemToWritableMap(poi: PoiItem): WritableMap? {
-        val map = Arguments.createMap()
-
-        map.putString("adCode", poi.adCode)
-
-        map.putString("adName", poi.adName)
-
-        map.putString("businessArea", poi.businessArea)
-
-        map.putString("cityCode", poi.cityCode)
-
-        map.putString("cityName", poi.cityName)
-
-        map.putString("direction", poi.direction)
-
-        map.putString("email", poi.email)
-
-        map.putString("parkingType", poi.parkingType)
-
-        map.putString("poiId", poi.poiId)
-
-        map.putString("postcode", poi.postcode)
-
-        map.putString("provinceCode", poi.provinceCode)
-
-        map.putString("provinceName", poi.provinceName)
-
-        map.putString("shopID", poi.shopID)
-
-        map.putString("snippet", poi.snippet)
-
-        map.putString("tel", poi.tel)
-
-        map.putString("title", poi.title)
-
-        map.putString("typeCode", poi.typeCode)
-
-        map.putString("typeDes", poi.typeDes)
-
-        map.putString("website", poi.website)
-
-        map.putInt("distance", poi.distance)
-
-        val latLonPoint = Arguments.createMap()
-        latLonPoint.putDouble("latitude", poi.latLonPoint.latitude)
-        latLonPoint.putDouble("longitude", poi.latLonPoint.longitude)
-        map.putMap("latLonPoint", latLonPoint)
-
-        map.putString("photos", poi.photos.toString())
-
-        map.putArray("subPois", subPoiSearchResultToWritableArray(poi.subPois))
-
-        return map
-    }
 }
