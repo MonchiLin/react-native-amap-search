@@ -78,7 +78,7 @@ class GeocodeModule(reactContext: ReactApplicationContext) : ReactContextBaseJav
             GeocodeSearch.AMAP
         }
 
-        val latlon = LatLonPoint(latLonPoint.getDouble("latitude"), latLonPoint.getDouble("longitude"))
+        val latlon = LatLonPoint(latLonPoint!!.getDouble("latitude"), latLonPoint.getDouble("longitude"))
 
         val query = RegeocodeQuery(latlon, radius.toFloat(), coordinateSystem)
 

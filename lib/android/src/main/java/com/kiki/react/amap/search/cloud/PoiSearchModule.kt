@@ -93,7 +93,7 @@ class PoiSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
         val searchBound: PoiSearch.SearchBound = when (searchBoundType) {
             "Periphery" -> {
                 val bound = params.getMap("searchBoundParams")
-                val latitude = bound.getDouble("latitude")
+                val latitude = bound!!.getDouble("latitude")
                 val longitude = bound.getDouble("longitude")
                 val latLonPoint = LatLonPoint(latitude, longitude)
                 PoiSearch.SearchBound(latLonPoint, radius)
@@ -102,9 +102,9 @@ class PoiSearchModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
                 val bound = params.getArray("searchBoundParams")
 
 
-                val latlons = (0..bound.size() - 1).map { it ->
+                val latlons = (0..bound!!.size() - 1).map { it ->
                     val point = bound.getMap(it)
-                    val latitude = point.getDouble("latitude")
+                    val latitude = point!!.getDouble("latitude")
                     val longitude = point.getDouble("longitude")
 
                     LatLonPoint(latitude, longitude)

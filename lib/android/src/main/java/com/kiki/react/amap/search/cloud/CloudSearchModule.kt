@@ -59,7 +59,7 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
 
             val bound = options.getMap("searchBoundParams")
 
-            val latitude = bound.getDouble("latitude")
+            val latitude = bound!!.getDouble("latitude")
             val longitude = bound.getDouble("longitude")
 
             val latLonPoint = LatLonPoint(latitude, longitude)
@@ -70,11 +70,11 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
 
             val bound = options.getArray("searchBoundParams")
 
-            val point1 = bound.getMap(1)
+            val point1 = bound!!.getMap(1)
             val point2 = bound.getMap(2)
 
-            val latlon1 = LatLonPoint(point1.getDouble("latitude"), point1.getDouble("longitude"))
-            val latlon2 = LatLonPoint(point2.getDouble("latitude"), point2.getDouble("longitude"))
+            val latlon1 = LatLonPoint(point1!!.getDouble("latitude"), point1.getDouble("longitude"))
+            val latlon2 = LatLonPoint(point2!!.getDouble("latitude"), point2.getDouble("longitude"))
 
             AMapCloudSearch.SearchBound(latlon1, latlon2)
 
@@ -82,9 +82,9 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
             val bound = options.getArray("searchBoundParams")
 
 
-            val latlons = (0..bound.size() - 1).map {
+            val latlons = (0..bound!!.size() - 1).map {
                 val point = bound.getMap(it)
-                val latitude = point.getDouble("latitude")
+                val latitude = point!!.getDouble("latitude")
                 val longitude = point.getDouble("longitude")
 
                 LatLonPoint(latitude, longitude)
