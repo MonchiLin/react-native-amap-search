@@ -52,6 +52,25 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
         } else {
             1000
         }
+
+        val pagination = if (options.hasKey("pagination")) {
+            val map = options.getMap("pagination")
+            if (map!!.hasKey("pageNum") && map.hasKey("pageSize")) {
+                map
+            } else {
+                val map = Arguments.createMap()
+                map.putInt("pageNum", 1)
+                map.putInt("pageSize", 20)
+                map
+            }
+        } else {
+            val map = Arguments.createMap()
+            map.putInt("pageNum", 1)
+            map.putInt("pageSize", 20)
+            map
+        }
+
+
         val tableId = options.getString("tableId")
         val searchBoundType = options.getString("searchBoundType")
 
@@ -104,6 +123,8 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
         val mCloudSearch = AMapCloudSearch(reactContext)
 
         val mQuery = AMapCloudSearch.Query(tableId, keyword, bound);
+        mQuery.pageNum = pagination.getInt("pageNum")
+        mQuery.pageSize = pagination.getInt("pageSize")
 
         mCloudSearch.setOnCloudSearchListener(object : AMapCloudSearch.OnCloudSearchListener {
             override fun onCloudItemDetailSearched(cloudItemDetail: AMapCloudItemDetail?, count: Int) {
