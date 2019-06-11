@@ -1,6 +1,6 @@
 {
   "name": "react-native-amap-search",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "react-native 高德地图搜索服务组件以及常用工具方法，仅支持 Android",
   "author": "kiki <lin912305043@gmail.com>",
   "license": "MIT",

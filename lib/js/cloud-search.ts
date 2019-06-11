@@ -1,5 +1,5 @@
 import {NativeModules} from "react-native";
-import {LatLonPoint} from './define';
+import {LatLonPoint} from "./define";
 
 const {AMapPoiSearch, AMapCloudSearch} = NativeModules;
 
@@ -7,8 +7,8 @@ type City = string
 
 // 长度为 2 的数组
 type TwoItemArray<T> = {
-    0: T,
-    1: T,
+	0: T,
+	1: T,
 } & Array<T>
 
 /**
@@ -25,10 +25,14 @@ type TwoItemArray<T> = {
  */
 
 export type CloudSearchParams = {
-    searchBoundParams: LatLonPoint | TwoItemArray<LatLonPoint> | LatLonPoint[] | City,
-    searchBoundType: "Bound" | "Rectangle" | "Polygon" | "Local",
-    tableId: string,
-    radius?: number,
+	searchBoundParams: LatLonPoint | TwoItemArray<LatLonPoint> | LatLonPoint[] | City,
+	searchBoundType: "Bound" | "Rectangle" | "Polygon" | "Local",
+	tableId: string,
+	radius?: number,
+	pagination?: {
+		pageNum: number,
+		pageSize: number,
+	}
 }
 
 export type CloudSearch = (params: CloudSearchParams) => Promise<any>

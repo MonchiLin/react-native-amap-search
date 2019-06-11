@@ -21,7 +21,7 @@ export default class App extends React.Component {
         //     radius: 1000,
         //     tableId: "please input your are key",
         // };
-        //
+
         // cloudSearch(params).then((res: any) => {
         //     console.log("cloudSearch ->", res);
         // }).catch((err: any) => {
@@ -46,23 +46,23 @@ export default class App extends React.Component {
         //         console.log("poiSearchId ->", res);
         //     }).catch(console.log);
 
-        // geocodeSearch({name: "吐鲁番", code: "新疆"})
-        //     .then(console.log);
+		// geocodeSearch({name: "吐鲁番", code: "新疆"})
+		//     .then(console.log);
 
-        // regeocodeSearch({
-        //     latLonPoint: {
-        //         latitude: 24.777343,
-        //         longitude: 103.047589
-        //     },
-        //     radius: 40000,
-        //     coordinateSystem: "autonavi"
-        // }).then(console.log);
+		// regeocodeSearch({
+		//     latLonPoint: {
+		//         latitude: 24.777343,
+		//         longitude: 103.047589
+		//     },
+		//     radius: 40000,
+		//     coordinateSystem: "autonavi"
+		// }).then(console.log);
 
-    }
+	}
 
-    render(): React.ReactNode {
-        return (
-            <View><Text>Hello World</Text></View>
-        );
-    }
+	render(): React.ReactNode {
+		return (
+			<View><Text>Hello World</Text></View>
+		);
+	}
 }

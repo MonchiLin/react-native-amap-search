@@ -41,8 +41,8 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
             return
         }
 
-        val keyword = if (options.hasKey("keyword")) {
-            options.getString("keyword")
+        val query = if (options.hasKey("query")) {
+            options.getString("query")
         } else {
             ""
         }
@@ -122,7 +122,8 @@ class CloudSearchModule(reactContext: ReactApplicationContext) : ReactContextBas
 
         val mCloudSearch = AMapCloudSearch(reactContext)
 
-        val mQuery = AMapCloudSearch.Query(tableId, keyword, bound);
+        val mQuery = AMapCloudSearch.Query(tableId, query, bound);
+
         mQuery.pageNum = pagination.getInt("pageNum")
         mQuery.pageSize = pagination.getInt("pageSize")
 
